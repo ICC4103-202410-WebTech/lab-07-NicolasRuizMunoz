@@ -24,8 +24,8 @@ users = []
 end
 
 jhon_doe = User.create!(
-  name: "Jhon Doe",
-  email: "jhonDoe@gmail.com",
+  name: "John Doe",
+  email: "johnDoe@gmail.com",
   password: "password"
   )
 
