@@ -10,6 +10,7 @@
 Post.delete_all
 User.delete_all
 Tag.destroy_all
+PostTag.destroy_all
 
 # Create users
 users = []
@@ -22,36 +23,50 @@ users = []
   users << user
 end
 
-# Create tags
+jhon_doe = User.create!(
+  name: "Jhon Doe",
+  email: "jhonDoe@gmail.com",
+  password: "password"
+  )
+
+post_for_jhon = jhon_doe.posts.create!(
+  title: "Post for Jhon",
+  content: "Content of post for Jhon",
+  published_at: nil,
+  answers_count: rand(10),
+  likes_count: rand(100)
+)
+
+
 tags = []
 5.times do |i|
   tag = Tag.create!(
-    name: "Tag#{i + 1}"
+    name: "Tag #{i + 1}"
   )
   tags << tag
 end
 
-# Create posts with tags and associate them with users
+random_tag = tags.sample
+post_for_jhon.tags << random_tag
+
 posts = []
 10.times do |i|
   user = users.sample
   post = user.posts.create!(
   title: "Post #{i + 1}",
   content: "Content of post #{i + 1}",
-  published_at: nil, # Corrected this line
+  published_at: nil,
   answers_count: rand(10),
   likes_count: rand(100)
 )
 
-  # Ensure each post has at least one tag
   post.tags << tags.sample
 
   posts << post
 end
 
-# Associate additional tags with posts
+
 posts.each do |post|
-  # Ensure each post has at least one tag
   remaining_tags = tags - post.tags
   additional_tags = remaining_tags.sample(rand(4) + 1)
   post.tags << additional_tags
